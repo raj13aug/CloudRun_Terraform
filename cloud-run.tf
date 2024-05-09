@@ -1,3 +1,7 @@
+resource "google_project_service" "cloud_run_api" {
+  service = "run.googleapis.com"
+}
+
 resource "google_cloud_run_v2_service" "cloud_run_teraform" {
   name     = var.cloudrun_name
   location = var.region
@@ -15,6 +19,9 @@ resource "google_cloud_run_v2_service" "cloud_run_teraform" {
       }
     }
   }
+  depends_on = [
+    google_project_service.cloud_run_api
+  ]
 }
 
 
