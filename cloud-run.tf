@@ -1,0 +1,35 @@
+resource "google_cloud_run_v2_service" "cloud_run_teraform" {
+  name     = var.cloudrun_name
+  location = var.region
+  ingress  = var.cloudrun_ingress
+  project  = var.project_id
+
+  template {
+    containers {
+      image = var.cloudrun_image
+      resources {
+        limits = {
+          cpu    = "2"
+          memory = "1024Mi"
+        }
+      }
+    }
+  }
+}
+
+
+data "google_iam_policy" "noauth" {
+  binding {
+    role = "roles/run.invoker"
+    members = [
+      "allUsers",
+    ]
+  }
+}
+
+resource "google_cloud_run_service_iam_policy" "noauth" {
+  location    = google_cloud_run_v2_service.cloud_run_teraform.location
+  project     = google_cloud_run_v2_service.cloud_run_teraform.project
+  service     = google_cloud_run_v2_service.cloud_run_teraform.name
+  policy_data = data.google_iam_policy.noauth.policy_data
+}
