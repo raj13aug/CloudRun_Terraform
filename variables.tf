@@ -1,5 +1,5 @@
 variable "project_id" {
-  default = "burner-cloud-run"
+  default = "mytesting-400910"
 }
 
 variable "region" {
