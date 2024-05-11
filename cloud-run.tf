@@ -40,3 +40,7 @@ resource "google_cloud_run_service_iam_policy" "noauth" {
   service     = google_cloud_run_v2_service.cloud_run_teraform.name
   policy_data = data.google_iam_policy.noauth.policy_data
 }
+
+output "url" {
+  value = google_cloud_run_v2_service.cloud_run_teraform.uri
+}
